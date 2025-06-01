@@ -15,7 +15,7 @@ showtext_auto()
 theme_set(theme_minimal(base_family = "noto"))
 
 # 1. 讀取 CSV 檔案
-cauliflower_data <- read.csv("cauliflower_cleaned.csv", fileEncoding = "UTF-8")
+cauliflower_data <- read.csv("data/cauliflower_cleaned.csv", fileEncoding = "UTF-8")
 
 # 假設你的資料框叫 df，week 欄位是數字
 cauliflower_data $week <- sprintf("%02d", cauliflower_data $week)
@@ -133,6 +133,8 @@ results <- data.frame(
   actual = y_test,
   predicted = y_pred
 )
+
+write.csv(results, file = "code/Null_model/512_pred_results.csv", row.names = FALSE)
 
 # 印出實際值與預測值的比較結果
 cat("\n實際值與預測值比較(前10筆)：\n")
@@ -272,6 +274,8 @@ results <- data.frame(
   predicted = y_pred
 )
 
+write.csv(results, file = "code/Null_model/514_pred_results.csv", row.names = FALSE)
+
 # 印出實際值與預測值的比較結果
 cat("\n實際值與預測值比較(前10筆)：\n")
 comparison <- head(results, 10)
@@ -408,6 +412,8 @@ results <- data.frame(
   actual = y_test,
   predicted = y_pred
 )
+
+write.csv(results, file = "code/Null_model/648_pred_results.csv", row.names = FALSE)
 
 # 印出實際值與預測值的比較結果
 cat("\n實際值與預測值比較(前10筆)：\n")
