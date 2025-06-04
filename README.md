@@ -123,7 +123,7 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
    * `lubridate`
    * `tools`
    * `shiny`
-   * `shinydashboard`
+   * `shinydashboard` 
    * `DT`
    * `ranger`
    * `lubridate`
