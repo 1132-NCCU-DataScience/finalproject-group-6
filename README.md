@@ -104,9 +104,30 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
       └── 648西螺鎮茼蒿市場價格預測_range.jpg
   ```
 * Is the improvement significant?
+* [Shinyapp](https://hsinjunglu.shinyapps.io/code/)
+  
+  <img width="949" alt="image" src="https://github.com/user-attachments/assets/a11f4ee8-b73d-498f-b27b-4bea73730d89" />
+
+   頁面說明:
+   * Home : 主題簡介與使用說明。
+   * ARIMA : 選擇不同市場觀看模型評估結果、價格趨勢圖以及價格預測圖。
+   * XGBoost : 選擇不同市場觀看模型評估結果以及價格預測圖。
+   * RandomForest : 選擇不同市場觀看模型評估結果以及價格預測圖。另外可自行選擇預測日期以及參數數值進行預測。
+   * 相關係數 : 不同市場之特徵變數與蔬菜平均交易價的相關係數圖。
+
 
 ## References
 * Packages you use
+   * `readxl`
+   * `dplyr`
+   * `lubridate`
+   * `tools`
+   * `shiny`
+   * `shinydashboard`
+   * `DT`
+   * `ranger`
+   * `lubridate`
+     
 * Related publications
 
 | 主題             | 連結 |
