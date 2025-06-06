@@ -78,6 +78,49 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
   * Cross-validation, or extra separated data
 * What is a null model for comparison?
 
+### RandomForest模型分析流程
+
+#### Analysis steps
+1. **數據預處理**：
+   - 整合農產品價格數據與天氣觀測數據
+   - 處理日期格式並確保時間序列連續性
+   - 移除或填補缺失值（價格缺失日期剔除，特徵缺失值使用中位數填充）
+
+2. **特徵工程**：
+   - 時間特徵：年、月、星期幾、週末標記
+   - 價格滯後特徵：1天、7天、14天、30天前價格
+   - 價格滾動統計：7天和14天移動平均，7天移動標準差
+   - 天氣特徵：當日平均/最高/最低溫度、相對濕度、降雨量
+   - 天氣滯後特徵：7天前的溫度、濕度、降雨量數據
+
+3. **模型建構與評估**：
+   - 時間序列分割（前80%訓練，後20%測試）
+   - 模型訓練與預測
+   - 性能評估與殘差分析
+   - 特徵重要性評估
+   - 跨市場驗證
+
+#### Packages used
+- **核心模型**：`ranger`（Random Forest的高效實現版本）
+- **數據處理**：`tidyverse`、`lubridate`（日期處理）
+- **時間序列特徵**：`zoo`（滾動統計計算）
+- **評估指標**：`Metrics`（計算RMSE、MAE等）
+- **可視化**：基礎R繪圖函數與`ggplot2`
+
+#### Training and evaluation methodology
+- **數據分割**：採用時間順序分割（temporal split），保留最後20%數據作為測試集
+- **無交叉驗證**：由於數據具時間序列性質，採用單一時間向前分割而非交叉驗證，避免數據洩漏
+- **參數設定**：
+  - 樹數量：500棵
+  - 特徵重要性計算：permutation method
+  - 隨機種子：123（確保結果可重現）
+- **評估指標**：
+  - RMSE（均方根誤差）
+  - MAE（平均絕對誤差）
+  - MAPE（平均絕對百分比誤差）
+  - R²（決定係數）
+
+
 ### results
 * image
   ```css
