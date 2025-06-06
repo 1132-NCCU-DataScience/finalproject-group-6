@@ -1,20 +1,22 @@
 # --- 花椰菜價格預測（Ranger隨機森林模型） ---
 library(tidyverse)
 library(lubridate)
-library(here)
 library(ranger)
 library(Metrics)
 library(zoo)
 
+# 設定工作目錄
+setwd("C:/Users/l7475/NLP/DS_Final")
+
 # 創建資料夾
 dirs <- c("data_processed", "plots", "plots/predictions", "plots/predictions/cauliflower", "models_saved")
 for(dir in dirs) {
-  if(!dir.exists(here(dir))) dir.create(here(dir), recursive = TRUE)
+  if(!dir.exists(dir)) dir.create(dir, recursive = TRUE)
 }
 
 # --- 載入與處理數據 ---
-cauliflower_daily_raw <- read_csv(here("vegdata", "花椰菜 青梗.csv"), locale = locale(encoding = "UTF-8"))
-weather_daily_raw <- read_csv(here("weatherdata", "daily_weather.csv"), locale = locale(encoding = "UTF-8"))
+cauliflower_daily_raw <- read_csv("vegdata/花椰菜 青梗.csv", locale = locale(encoding = "UTF-8"))
+weather_daily_raw <- read_csv("weatherdata/daily_weather.csv", locale = locale(encoding = "UTF-8"))
 
 # 處理花椰菜數據
 cauliflower_processed <- cauliflower_daily_raw %>%
@@ -222,6 +224,12 @@ for (market_n in target_markets) {
   
   cat(paste("Ranger模型 RMSE:", round(rmse, 2), "MAE:", round(mae, 2), "MAPE:", round(mape, 2), "%\n"))
   
+  r_squared <- 1 - sum((test_data$avg_price - test_data$ranger_pred_orig)^2) / 
+    sum((test_data$avg_price - mean(test_data$avg_price))^2)
+  
+  cat(paste("Ranger模型 RMSE:", round(rmse, 2), "MAE:", round(mae, 2), 
+            "MAPE:", round(mape, 2), "% R²:", round(r_squared, 6), "\n"))
+  
   # 特徵重要性
   imp <- ranger::importance(ranger_model)
   importance_df <- data.frame(
@@ -240,7 +248,8 @@ for (market_n in target_markets) {
       importance = imp,
       rmse = rmse,
       mae = mae,
-      mape = mape
+      mape = mape,
+      r2 = r_squared
     ),
     data_splits = list(
       train_data_for_plotting = train_data,
@@ -278,12 +287,12 @@ for (market_n in target_markets) {
          col = c("red", "blue"), lty = c(2, 1), lwd = c(1.5, 1.5), bty = "n")
   
   # 保存圖片
-  dev.copy(png, filename = here("plots/predictions/cauliflower", paste0(market_code, "市場花椰菜價格預測_ranger.png")),
+  dev.copy(png, filename = paste0("plots/predictions/cauliflower/", market_code, "市場花椰菜價格預測_ranger.png"),
            width = 800, height = 500, res = 100)
   dev.off()
   
   # 特徵重要性視覺化
-  png(filename = here("plots/predictions/cauliflower", paste0(market_code, "市場花椰菜特徵重要性.png")),
+  png(filename = paste0("plots/predictions/cauliflower/", market_code, "市場花椰菜特徵重要性.png"),
       width = 800, height = 500, res = 100)
   
   par(mar = c(5, 10, 4, 2))  # 調整邊距以容納長特徵名稱
@@ -300,8 +309,8 @@ for (market_n in target_markets) {
 }
 
 # 儲存模型結果
-saveRDS(model_results_list, file = here("models_saved", "cauliflower_model_results.rds"))
-saveRDS(merged_data, file = here("data_processed", "cauliflower_merged_data.rds"))
+saveRDS(model_results_list, file = "models_saved/cauliflower_model_results.rds")
+saveRDS(merged_data, file = "data_processed/cauliflower_merged_data.rds")
 
 # 生成模型比較表格
 comparison_data <- data.frame(
@@ -324,7 +333,7 @@ for (market_n in names(model_results_list)) {
 
 # 保存比較表格
 if (nrow(comparison_data) > 0) {
-  write.csv(comparison_data, file = here("models_saved", "cauliflower_model_comparison.csv"), row.names = FALSE)
+  write.csv(comparison_data, file = "models_saved/cauliflower_model_comparison.csv", row.names = FALSE)
   cat("\n花椰菜各市場預測結果比較:\n")
   print(comparison_data)
 }
