@@ -18,6 +18,67 @@ Please provide an example command or a few commands to reproduce your analysis, 
 ```R
 Rscript code/your_script.R --input data/training --output results/performance.tsv
 ```
+本專案使用 ARIMA 、 XGboost 與隨機森林模型 (Ranger)預測台灣各市場花椰菜價格，並透過 Shiny App 視覺化展示預測結果。
+
+### 系統需求 
+
+- 作業系統：Windows / macOS / Linux
+- R 版本：4.0 以上（建議使用 4.3.0 或以上）
+- 記憶體：建議至少 4GB
+- 網路連線：用於安裝 R 套件與下載資料
+
+> 若使用 RStudio，請確認已安裝最新版，以支援 Shiny App 執行。
+
+### 1. 下載專案
+
+請先使用 Git 將專案克隆到本地端：
+```bash
+git clone https://github.com/1132-NCCU-DataScience/finalproject-group-6.git
+cd finalproject-group-6
+```
+
+### 2. 套件安裝
+
+請先安裝必要套件：
+
+```r
+install.packages(c("tidyverse", "lubridate", "ranger", "Metrics","zoo","ggplot2",
+                   "shiny", "shinydashboard", "DT", "dplyr"))
+
+```
+### 3. 資料與目錄結構
+
+請確保您有以下目錄結構：
+```
+finalproject-group-6/
+├── code/
+│   ├── Brocoli_predict_Renger(Random Forest).R     # 隨機森林模型
+│   ├── app.R                                       # Shinyapp
+├── data/
+│   ├── 花椰菜 青梗.csv                   # 花椰菜交易資料
+│   ├── daily_weather.csv                # 天氣資料
+├── results/
+│   ├── 400市場花椰菜價格預測_ranger.png           
+│   ├── 420市場花椰菜價格預測_ranger.png
+│   ├── 512市場花椰菜價格預測_ranger.png
+│   ├── 514市場花椰菜價格預測_ranger.png          
+│   ├── 648市場花椰菜價格預測_ranger.png      
+├── README.md
+```
+### 4. 執行模型訓練與預測
+
+請使用以下指令執行主程式，並將結果輸出為圖片檔：
+
+```bash
+Rscript code/Brocoli_predict_Renger(Random Forest).R \
+  --input1 data/花椰菜 青梗.csv \
+  --input2 data/daily_weather.csv  \
+  --output_dir results/
+```
+### 5. 啟動 Shiny App
+```bash
+shiny::runApp("shiny/")
+```
 
 ## Folder organization and its related description
 idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Projects.](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424) PLoS Comput Biol 5(7): e1000424.
@@ -139,12 +200,12 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
   │   ├── [514系列圖]
   │   └── [648系列圖]
   └── ranger/
-      ├── 400台中市甜豌豆市場價格預測_ranger.jpg
-      ├── 420豐原區甜豌豆市場價格預測_ranger.jpg
-      ├── 514溪湖鎮甜豌豆市場價格預測_range.jpg
-      ├── 400台中市茼蒿市場價格預測_ranger.jpg
-      ├── 420豐原區茼蒿市場價格預測_ranger.jpg
-      └── 648西螺鎮茼蒿市場價格預測_range.jpg
+      ├── 400台中市甜豌豆市場價格預測_ranger.png
+      ├── 420豐原區甜豌豆市場價格預測_ranger.png
+      ├── 514溪湖鎮甜豌豆市場價格預測_range.png
+      ├── 400台中市茼蒿市場價格預測_ranger.png
+      ├── 420豐原區茼蒿市場價格預測_ranger.png
+      └── 648西螺鎮茼蒿市場價格預測_range.png
   ```
 * Is the improvement significant?
 * [Shinyapp](https://hsinjunglu.shinyapps.io/code/)
@@ -160,7 +221,7 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
 
 
 ## References
-* Packages you use
+* Packages we use
    * `readxl`
    * `dplyr`
    * `lubridate`
@@ -169,7 +230,10 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
    * `shinydashboard` 
    * `DT`
    * `ranger`
-   * `lubridate`
+   * `tidyverse`
+   * `zoo`
+   * `Metrics`
+   * `ggplot2`
      
 * Related publications
 
