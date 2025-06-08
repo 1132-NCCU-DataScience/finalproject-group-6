@@ -83,7 +83,7 @@ shiny::runApp("shiny/")
 ## Folder organization and its related description
 idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Projects.](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424) PLoS Comput Biol 5(7): e1000424.
 
-## docs
+### docs
 * Presentation, 1132_DS-FP_group6.ppt
 * Data Integration
 * Poster of Innofest
@@ -91,7 +91,7 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
   * discussion log
   * software user guide
 
-## data
+### data
 * 農產品價格資料
   * Source: 🔗 [農產品批發市場交易行情站](https://amis.afa.gov.tw/veg/VegProdDayTransInfo.aspx)
   * Duration: 2015/01/01 ~ 2025/04/30
@@ -132,7 +132,7 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
   - `summary_merged_daily_lagged.csv`：每日整合資料摘要
   - `summary_merged_weekly_lagged.csv`：每週整合資料摘要
 
-### 氣象資料處理流程說明
+#### 氣象資料處理流程說明
 
 1. **資料來源與選用原則**
 
@@ -172,16 +172,16 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
    * 詳細記錄各氣象變數缺值狀況與補值後比例，確保分析基礎資料品質。
    * 篩選缺失過多的變數（如最大60分鐘降水量等）避免影響模型效能。
   
-## code
+### code
 * Analysis steps
 * Which method or package do you use?
 * How do you perform training and evaluation?
   * Cross-validation, or extra separated data
 * What is a null model for comparison?
 
-## RandomForest模型分析流程
+#### RandomForest模型分析流程
 
-### Analysis steps
+##### Analysis steps
 1. **數據預處理**：
    - 整合農產品價格數據與天氣觀測數據
    - 處理日期格式並確保時間序列連續性
@@ -201,14 +201,14 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
    - 特徵重要性評估
    - 跨市場驗證
 
-### Packages used
+##### Packages used
 - **核心模型**：`ranger`（Random Forest的高效實現版本）
 - **數據處理**：`tidyverse`、`lubridate`（日期處理）
 - **時間序列特徵**：`zoo`（滾動統計計算）
 - **評估指標**：`Metrics`（計算RMSE、MAE等）
 - **可視化**：基礎R繪圖函數與`ggplot2`
 
-### Training and evaluation methodology
+##### Training and evaluation methodology
 - **數據分割**：採用時間順序分割（temporal split），保留最後20%數據作為測試集
 - **無交叉驗證**：由於數據具時間序列性質，採用單一時間向前分割而非交叉驗證，避免數據洩漏
 - **參數設定**：
@@ -222,7 +222,7 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
   - R²（決定係數）
 
 
-## results
+### results
 * image
   ```css
   image/
