@@ -83,7 +83,7 @@ shiny::runApp("shiny/")
 ## Folder organization and its related description
 idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Projects.](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424) PLoS Comput Biol 5(7): e1000424.
 
-### docs
+## docs
 * Presentation, 1132_DS-FP_group6.ppt
 * Data Integration
 * Poster of Innofest
@@ -91,7 +91,7 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
   * discussion log
   * software user guide
 
-### data
+## data
 * 農產品價格資料
   * Source: 🔗 [農產品批發市場交易行情站](https://amis.afa.gov.tw/veg/VegProdDayTransInfo.aspx)
   * Duration: 2015/01/01 ~ 2025/04/30
@@ -131,17 +131,57 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
   - `data.ipynb`：資料整合與處理過程紀錄
   - `summary_merged_daily_lagged.csv`：每日整合資料摘要
   - `summary_merged_weekly_lagged.csv`：每週整合資料摘要
+
+### 氣象資料處理流程說明
+
+1. **資料來源與選用原則**
+
+   * 氣象資料來自 [農業氣象觀測網監測系統](https://agr.cwa.gov.tw/history/station_day)。
+   * 選擇**中部產地鄰近、2014 年至今資料完整的農業氣象觀測站**（雲林：南改斗南分場，彰化：台中農改等），確保與蔬菜產地配對。
+
+2. **原始資料處理**
+
+   * 資料期間設定為**2014/10/01–2025/04/30**，涵蓋蔬果價格期間及生育前置期。
+   * 主要欄位包含：氣壓、氣溫、濕度、露點、風速、降雨、日照、地溫等指標之**每日數據**。
+
+3. **異常值與缺值處理**
+
+   * 針對不合理極值（如\*\*最低氣溫出現-39.6°C、相對濕度0%\*\*等明顯錯誤）直接設為 NA。
+   * **交叉比對兩觀測站資料**：同一日兩站差異過大（如氣溫相差超過 10°C）也判為異常，設 NA。
+   * 部分變數大量缺失者直接剔除（例：地溫等），其餘欄位如遇單日缺失，採**雙向補值（取前後日均值）**。
+
+4. **多站資料合併邏輯**
+
+   * 若僅單站有數據，直接採用。
+   * 兩站皆有資料時：**平均型欄位取平均值、極值欄位取最大/最小值**。
+   * 兩站皆缺時保留為 NA，後續週資料處理時再進行插補。
+
+5. **每日資料轉換為每週資料**
+
+   * 週統計時，**累積型變數（如降雨量、日照時數）要求一週至少有六天有值**，否則該週欄位記為 NA。
+   * 極值欄位取該週極值，平均型欄位取平均。
+   * 缺值週資料視情況以插值補齊。
+
+6. **與蔬果價格資料合併**
+
+   * 以蔬菜每週價格資料為主軸，將當週（w）及**往前 12 週**之天氣變數合併進同一筆資料。
+   * 結合後每筆樣本包含高達 283 個天氣相關欄位。
+
+7. **品質檢查與統計**
+
+   * 詳細記錄各氣象變數缺值狀況與補值後比例，確保分析基礎資料品質。
+   * 篩選缺失過多的變數（如最大60分鐘降水量等）避免影響模型效能。
   
-### code
+## code
 * Analysis steps
 * Which method or package do you use?
 * How do you perform training and evaluation?
   * Cross-validation, or extra separated data
 * What is a null model for comparison?
 
-### RandomForest模型分析流程
+## RandomForest模型分析流程
 
-#### Analysis steps
+### Analysis steps
 1. **數據預處理**：
    - 整合農產品價格數據與天氣觀測數據
    - 處理日期格式並確保時間序列連續性
@@ -161,14 +201,14 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
    - 特徵重要性評估
    - 跨市場驗證
 
-#### Packages used
+### Packages used
 - **核心模型**：`ranger`（Random Forest的高效實現版本）
 - **數據處理**：`tidyverse`、`lubridate`（日期處理）
 - **時間序列特徵**：`zoo`（滾動統計計算）
 - **評估指標**：`Metrics`（計算RMSE、MAE等）
 - **可視化**：基礎R繪圖函數與`ggplot2`
 
-#### Training and evaluation methodology
+### Training and evaluation methodology
 - **數據分割**：採用時間順序分割（temporal split），保留最後20%數據作為測試集
 - **無交叉驗證**：由於數據具時間序列性質，採用單一時間向前分割而非交叉驗證，避免數據洩漏
 - **參數設定**：
@@ -182,7 +222,7 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
   - R²（決定係數）
 
 
-### results
+## results
 * image
   ```css
   image/
