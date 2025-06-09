@@ -18,7 +18,9 @@ Please provide an example command or a few commands to reproduce your analysis, 
 ```R
 Rscript code/your_script.R --input data/training --output results/performance.tsv
 ```
-本研究使用 ARIMA 、 XGboost 與隨機森林模型 (Ranger)預測台灣各市場花椰菜價格，並透過 Shiny App 視覺化展示預測結果，此處以隨機森林模型 (Ranger)作為範例。
+本研究使用 ARIMA 、 XGboost 與隨機森林模型 (Ranger)預測台灣各市場花椰菜價格，並透過 Shiny App 視覺化展示預測結果。
+
+此處以隨機森林模型 (Ranger)作為範例。
 
 ### 系統需求 
 
@@ -112,9 +114,9 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
 
     | 品種    | 日資料筆數 | 週資料筆數 |
     |---------|------------|-------------|
-    | 花椰菜  | 14,983     | 764         |
-    | 茼蒿    | 4,091      | 764         |
-    | 甜豌豆  | 4,228      | 764         |
+    | 花椰菜  | 14,983     | 2601         |
+    | 茼蒿    | 4,091      | 807         |
+    | 甜豌豆  | 4,228      | 876        |
 
 #### 農產品價格資料處理流程說明
 1. **資料來源與選用原則**
