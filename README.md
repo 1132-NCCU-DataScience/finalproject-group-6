@@ -179,6 +179,58 @@ idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Proje
   * Cross-validation, or extra separated data
 * What is a null model for comparison?
 
+#### xgboost   模型分析流程
+##### Analysis Steps
+
+1. **Load Required Packages**
+   - `tidyverse`: Data manipulation and plotting
+   - `lubridate`: Date formatting
+   - `xgboost`: Machine learning model (gradient boosting)
+   - `caret`: Modeling utilities
+   - `dplyr`: Data wrangling
+   - `showtext`, `sysfonts`: Custom font rendering (Google Noto Sans TC)
+
+2. **Font Setup**
+   - Uses `Noto Sans TC` for Traditional Chinese support in plots.
+
+3. **Data Preparation**
+   - Reads data from `data/cauliflower_cleaned.csv`.
+   - Filters the dataset for the market `"512 永靖鄉"`,`"514 溪湖鎮"`, `"648 西螺鎮"` .
+   - Combines `year` and `week` columns to create a formatted `date` field.
+   - Selects relevant features: 9 weather-related variables (lagged by 3 weeks) and price columns.
+
+4. **Data Splitting**
+   - Sorted chronologically.
+   - Splits the data into:
+     - **Training set**: First 70%
+     - **Validation set**: Next 15%
+     - **Test set**: Final 15%
+
+---
+
+##### Methods & Packages Used
+
+| Component     | Method / Tool             |
+|---------------|---------------------------|
+| Regression    | XGBoost (`reg:squarederror`) |
+| Evaluation    | RMSE, MAE, R-squared, MAPE |
+| Plotting      | `ts.plot()` with actual vs predicted |
+| Output Format | CSV and plot               |
+
+---
+
+##### Training and Evaluation
+
+- **No Cross-Validation**: Due to the time-series nature of the data.
+- **Validation Set**: Used for early stopping (`early_stopping_rounds = 50`) to prevent overfitting.
+- **Test Set**: Used only after training to evaluate generalization.
+
+```r
+watchlist = list(train = dtrain, validation = dval)
+```
+##### Null model
+Native Model: 預測下一期 ＝ 現在這期的值
+
 #### RandomForest模型分析流程
 
 ##### Analysis steps
