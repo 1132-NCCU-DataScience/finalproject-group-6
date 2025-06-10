@@ -302,7 +302,7 @@ Native Model: 預測下一期 ＝ 現在這期的值
 ### results
 * image
   ```css
-  image/
+  result/
   ├── 512永靖鄉每週批發價格趨勢圖.jpg
   ├── 514溪湖鎮每週批發價格趨勢圖.jpg
   ├── 648西螺鎮每週批發價格趨勢圖.jpg
