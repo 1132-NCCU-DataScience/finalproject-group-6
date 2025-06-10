@@ -86,7 +86,7 @@ shiny::runApp("shiny/")
 idea by Noble WS (2009) [A Quick Guide to Organizing Computational Biology Projects.](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424) PLoS Comput Biol 5(7): e1000424.
 
 ### docs
-* Presentation, 1132_DS-FP_group6.ppt
+* Presentation, [Data Science Final.pdf](docs/Data_Science_Final.pdf)
 * Data Integration
 * Poster of Innofest
 * Any related document for the project, i.e.,
